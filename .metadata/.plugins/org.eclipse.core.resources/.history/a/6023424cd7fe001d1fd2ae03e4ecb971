@@ -1,0 +1,8 @@
+package org.forstudy.domain;
+
+import lombok.Data;
+
+@Data
+public class SampleDTOList {
+	
+}

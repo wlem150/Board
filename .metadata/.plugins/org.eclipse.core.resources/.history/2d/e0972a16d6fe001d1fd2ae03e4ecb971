@@ -1,0 +1,5 @@
+package org.forstudy.domain;
+
+public class SampleDTO {
+
+}

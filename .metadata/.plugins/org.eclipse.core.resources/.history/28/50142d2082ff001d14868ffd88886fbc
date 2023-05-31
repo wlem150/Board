@@ -1,0 +1,5 @@
+package org.mine.service;
+
+public class BoardServiceImpl {
+
+}

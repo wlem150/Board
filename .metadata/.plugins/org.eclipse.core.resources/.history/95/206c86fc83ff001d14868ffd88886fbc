@@ -1,0 +1,49 @@
+package org.mine.service;
+
+import java.util.List;
+
+import org.mine.domain.BoardVO;
+import org.mine.mapper.BoardMapper;
+import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Service
+@AllArgsConstructor
+@Log4j
+public class BoardServiceImpl implements BoardService {
+	private BoardMapper mapper;
+	
+	@Override
+	public void register(BoardVO board) {
+		mapper.insertSelectKey(board);
+		
+	}
+
+	@Override
+	public boolean modify(Long bno) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean remove(long bno) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public BoardVO get(long bno) {
+		
+		return null;
+	}
+
+	@Override
+	public List<BoardVO> getList() {
+		log.info("getList");
+		
+		return null;
+	}
+
+}

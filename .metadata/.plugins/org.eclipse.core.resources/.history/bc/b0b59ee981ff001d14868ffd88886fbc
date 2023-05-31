@@ -1,0 +1,7 @@
+package org.mine.service;
+
+import org.mine.domain.BoardVO;
+
+public interface BoardService {
+	public void register(BoardVO board);
+}

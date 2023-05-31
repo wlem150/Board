@@ -1,0 +1,8 @@
+package org.mine.domain;
+
+import lombok.Data;
+
+@Data
+public class BoardVO {
+	private Long bno;
+}

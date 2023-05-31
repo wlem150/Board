@@ -1,0 +1,41 @@
+package org.mine.service;
+
+import java.util.List;
+
+import org.mine.domain.BoardVO;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BoardServiceImpl implements BoardService {
+
+	@Override
+	public void register(BoardVO board) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean modify(Long bno) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean remove(long bno) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public BoardVO get(long bno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BoardVO> getList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

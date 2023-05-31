@@ -1,0 +1,8 @@
+package org.mine.mapper;
+
+import org.apache.ibatis.annotations.Select;
+
+public class BoardMapper {
+	@Select("select * from tbl_board where bno > 0")
+	private List<BoardVO> getList();
+}

@@ -1,0 +1,5 @@
+package org.mine.domain;
+
+public class BoardVO {
+
+}

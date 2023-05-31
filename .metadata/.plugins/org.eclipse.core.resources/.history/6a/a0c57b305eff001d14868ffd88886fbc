@@ -1,0 +1,71 @@
+package org.mine.controller;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import org.forstudy.domain.SampleDTO;
+import org.forstudy.domain.SampleDTOList;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import lombok.extern.log4j.Log4j;
+
+@Controller
+@RequestMapping("/sample/*")
+@Log4j
+public class SampleController {
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDtaFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+	}
+	
+	
+	
+	@RequestMapping("")
+	public void basic() {
+		log.info("Sample");
+
+	}
+
+	@RequestMapping(value = "/both", method = { RequestMethod.GET, RequestMethod.POST })
+	public void getPost() {
+		log.info("Get 방식과 Post 방식 모두 사용가능");
+	}
+
+	@RequestMapping(value = "/get", method = { RequestMethod.GET })
+	public void get() {
+		log.info("only Get");
+	}
+
+	@GetMapping("/my01")
+	public String getDTO(SampleDTO dto) {
+		log.info("" + dto);
+		return "my01";
+	}
+
+	@GetMapping("/my02")
+	public String my02(@RequestParam("name") String name, @RequestParam int age) {
+		log.info("" + name);
+		log.info("" + age);
+		return "/my02";
+	}
+
+	@GetMapping("/my03")
+	public String String(@RequestParam("ids") ArrayList<String> ids) {
+		log.info("ids : " + ids);
+		return "my03";
+	}
+
+	@GetMapping("/my04")
+	public String my04(SampleDTOList list) {
+		log.info("list dtos : " + list);
+		return "my04";
+	}
+	
+}
