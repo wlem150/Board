@@ -1,6 +1,0 @@
-package org.forstudy.domain;
-
-public class TodoDTO {
-	private String title;
-	private Date date;
-}

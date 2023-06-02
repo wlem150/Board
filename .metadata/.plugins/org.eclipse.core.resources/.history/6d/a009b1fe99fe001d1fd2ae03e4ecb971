@@ -1,7 +1,0 @@
-package org.forstudy.mapper;
-
-import org.apache.ibatis.annotations.Select;
-
-public interface TimeMapper {
-	public String getTime();
-}

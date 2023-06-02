@@ -1,2 +1,0 @@
-127.0.0.1 - - [30/May/2023:19:33:08 +0900] "GET / HTTP/1.1" 404 807
-127.0.0.1 - - [30/May/2023:19:33:11 +0900] "GET /ForStduy/WEB-INF/classes/org/mine/controller/SampleController.java HTTP/1.1" 404 721

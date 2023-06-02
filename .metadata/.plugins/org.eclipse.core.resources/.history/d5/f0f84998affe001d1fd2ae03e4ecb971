@@ -1,8 +1,0 @@
-package org.forstudy.persistence;
-
-import java.io.FileReader;
-import java.util.Scanner;
-
-public class Sample {
-	Scanner sc = new Scanner(FileReader)
-}
