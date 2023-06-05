@@ -1,8 +1,11 @@
 package org.mine.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mine.domain.BoardVO;
+import org.mine.domain.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,16 +20,13 @@ public class BoardMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
 	
-	@Test
-	public void update() {
-		BoardVO board = new BoardVO();
-		board.setContent("업데이트");
-		board.setWriter("업데이트");
-		board.setTitle("업데이트");
-		board.setBno(2L);
-		log.info(board);
-		mapper.update(board);
-		
-	}
 
+	@Test
+	public void test() {
+		Criteria cri = new Criteria(2,20);
+		cri.setPageNum(3);
+		cri.setAmount(10);
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		list.forEach(board -> log.info(board));
+	}
 }

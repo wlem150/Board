@@ -3,6 +3,7 @@ package org.mine.service;
 import java.util.List;
 
 import org.mine.domain.BoardVO;
+import org.mine.domain.Criteria;
 import org.mine.mapper.BoardMapper;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,11 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getList() {
 		log.info("getList");
 		return mapper.getList();
+	}
+
+	@Override
+	public List<BoardVO> getListWithPaging(Criteria cri) {
+		return mapper.getListWithPaging(cri);
 	}
 
 }

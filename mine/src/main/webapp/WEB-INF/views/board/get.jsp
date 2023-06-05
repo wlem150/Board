@@ -38,13 +38,14 @@
 				<button data-oper='list' class="btn btn-info">List</button>
 				<form action="/board/modify" id='operForm' method="get">
 					<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno }"/>'>
+					<input type='hidden' name='pageNum' value='<c:out value = "${cri.pageNum }"/>'>
+					<input type='hidden' name='amout' value='<c:out value = "${cri.amount }"/>'>
 				</form>
 			</div>
-
 		</div>
-
 	</div>
 </div>
+
 <script>
 	$(document).ready(function(){
 		var operForm = $("#operForm");

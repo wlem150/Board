@@ -1,10 +1,13 @@
 package org.mine.controller;
 
 import org.mine.domain.BoardVO;
+import org.mine.domain.Criteria;
+import org.mine.domain.PageDTO;
 import org.mine.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +24,10 @@ public class BoardController {
 	private BoardService service;
 	
 	@GetMapping("/list")
-	public void list(Model model) {
-		log.info("list");
-		model.addAttribute("list", service.getList());
+	public void list(Model model, Criteria cri) {
+		log.info("getListWithPaging");
+		model.addAttribute("list", service.getListWithPaging(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri, 123));
 	}
 	
 	@PostMapping("/register")
@@ -40,7 +44,7 @@ public class BoardController {
 	}
 	
 	@GetMapping({"/get","/modify"})
-	public void get(@RequestParam("bno") long bno, Model model) {
+	public void get(@RequestParam("bno") long bno,@ModelAttribute("cri") Criteria cri ,Model model) {
 		log.info("/get or modify");
 		model.addAttribute("board", service.get(bno));
 	}

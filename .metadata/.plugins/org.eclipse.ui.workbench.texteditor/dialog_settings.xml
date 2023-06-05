@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="InternalResourceViewResolver"/>
+		<item key="selection" value="board.bno"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="InternalResourceViewResolver"/>
-			<item value="dis"/>
-			<item value="appser"/>
-			<item value="app"/>
-			<item value="../"/>
-			<item value="remove"/>
-			<item value="resource"/>
-			<item value="junit"/>
-			<item value="spring-test"/>
-			<item value="springframework"/>
-			<item value="2.5"/>
-			<item value="runtime"/>
-			<item value="jstl"/>
-			<item value="11"/>
-			<item value="lombok"/>
+			<item value="board.bno"/>
+			<item value="board List page"/>
+			<item value="modal"/>
+			<item value="row"/>
+			<item value="No data available in table"/>
+			<item value="DataTables Advanced Tables"/>
+			<item value="tbody"/>
+			<item value="odd"/>
+			<item value="datatable"/>
+			<item value="lm-6"/>
+			<item value="col"/>
+			<item value="col-sm"/>
+			<item value="DataTables Usage Information"/>
+			<item value="/#page"/>
+			<item value="page-wrapper"/>
 		</list>
 		<list key="replacehistory">
 			<item value="/resources/"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="713"/>
-		<item key="DIALOG_Y_ORIGIN" value="273"/>
+		<item key="DIALOG_X_ORIGIN" value="675"/>
+		<item key="DIALOG_Y_ORIGIN" value="619"/>
 		<item key="DIALOG_WIDTH" value="288"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
