@@ -20,13 +20,15 @@ public class BoardMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
 	
-
 	@Test
 	public void test() {
-		Criteria cri = new Criteria(2,20);
-		cri.setPageNum(3);
+		Criteria cri = new Criteria();
 		cri.setAmount(10);
+		cri.setPageNum(2);
+		cri.setKeyword("Title");
+		cri.setType("TC");
 		List<BoardVO> list = mapper.getListWithPaging(cri);
 		list.forEach(board -> log.info(board));
+		
 	}
 }

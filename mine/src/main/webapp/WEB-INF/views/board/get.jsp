@@ -39,7 +39,10 @@
 				<form action="/board/modify" id='operForm' method="get">
 					<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno }"/>'>
 					<input type='hidden' name='pageNum' value='<c:out value = "${cri.pageNum }"/>'>
-					<input type='hidden' name='amout' value='<c:out value = "${cri.amount }"/>'>
+					<input type='hidden' name='amount' value='<c:out value = "${cri.amount }"/>'>
+					<input type='hidden' name='type' value='<c:out value = "${cri.type }"/>'>
+					<input type='hidden' name='keyword' value='<c:out value = "${cri.keyword}"/>'>
+					
 				</form>
 			</div>
 		</div>

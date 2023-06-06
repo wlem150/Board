@@ -12,4 +12,5 @@ public interface BoardService {
 	public BoardVO get(long bno);
 	public List<BoardVO> getList();
 	public List<BoardVO> getListWithPaging(Criteria cri);
+	public int getTotalCount(Criteria cri);
 }
