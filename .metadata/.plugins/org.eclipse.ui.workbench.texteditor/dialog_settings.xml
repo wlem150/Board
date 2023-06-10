@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="type"/>
+		<item key="selection" value="spring-test"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="spring-test"/>
+			<item value="runtime"/>
+			<item value="unit"/>
+			<item value="junit"/>
+			<item value="jackson-dataformat"/>
+			<item value="servlet-api"/>
+			<item value="gson"/>
+			<item value="&lt;org.springframework-version&gt;"/>
 			<item value="type"/>
 			<item value="actionform"/>
 			<item value="move"/>
@@ -15,14 +23,6 @@
 			<item value="board.bno"/>
 			<item value="board List page"/>
 			<item value="modal"/>
-			<item value="row"/>
-			<item value="No data available in table"/>
-			<item value="DataTables Advanced Tables"/>
-			<item value="tbody"/>
-			<item value="odd"/>
-			<item value="datatable"/>
-			<item value="lm-6"/>
-			<item value="col"/>
 		</list>
 		<list key="replacehistory">
 			<item value="/resources/"/>
