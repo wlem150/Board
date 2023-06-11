@@ -3,6 +3,7 @@ package org.mine.service;
 import java.util.List;
 
 import org.mine.domain.Criteria;
+import org.mine.domain.ReplyPageDTO;
 import org.mine.domain.ReplyVO;
 import org.mine.mapper.ReplyMapper;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public List<ReplyVO> getListWithPaging(Criteria cri, long bno) {
 		return mapper.getListWithPaging(cri, bno);
+	}
+
+	@Override
+	public ReplyPageDTO getListPage(Criteria cri, long bno) {
+		return new ReplyPageDTO(mapper.getCountByBno(bno), mapper.getListWithPaging(cri, bno));
 	}	
 }

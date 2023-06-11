@@ -1,11 +1,11 @@
 console.log("Reply Module");
-var replyService =(function(){
+var replyService = (function () {
   function add(reply, callback, error) {
     console.log("reply........");
 
     $.ajax({
-      type: 'post',
-      url: '/replies/new',
+      type: "post",
+      url: "/replies/new",
       data: JSON.stringify(reply),
       contentType: "application/json; charset=utf-8",
       success: function (result, status, xhr) {
@@ -17,8 +17,8 @@ var replyService =(function(){
         if (error) {
           error(er);
         }
-      }
-    })
+      },
+    });
   }
 
   function getList(param, callback, error) {
@@ -27,7 +27,8 @@ var replyService =(function(){
     $.getJSON("/replies/pages/" + bno + "/" + page + ".json",
       function (data) {
         if (callback) {
-          callback(data);
+          // callback(data);
+          callback(data.replyCnt, data.list);
         }
       }).fail(function (xhr, status, err) {
         if (error) {
@@ -38,7 +39,7 @@ var replyService =(function(){
 
   function remove(rno, callback, error) {
     $.ajax({
-      type: 'delete',
+      type: "delete",
       url: "/replies/" + rno,
       success: function (deleteResult, status, xhr) {
         if (callback) {
@@ -49,15 +50,14 @@ var replyService =(function(){
         if (error) {
           error(er);
         }
-      }
+      },
     });
   }
 
   function update(reply, callback, error) {
-    console.log("update reply .............");
     $.ajax({
       type: "put",
-      url: "replies/" + reply.rno,
+      url: "/replies/" + reply.rno,
       data: JSON.stringify(reply),
       contentType: "application/json; charset=utf-8",
       success: function (result, status, xhr) {
@@ -69,7 +69,7 @@ var replyService =(function(){
         if (error) {
           error(er);
         }
-      }
+      },
     });
   }
 
@@ -91,14 +91,20 @@ var replyService =(function(){
     var dateObj = new Date(timeValue);
     var str = "";
 
-    if (gap < (1000 * 60 * 60 * 24)) {
+    if (gap < 1000 * 60 * 60 * 24) {
       var hh = dateObj.getHours();
       var mm = dateObj.getMinutes();
       var ss = dateObj.getSeconds();
 
-      return [(hh > 9 ? '' : '0') + hh, ':', (mm > 9 ? '' : '0') + mm, ':', (ss > 9 ? '' : '0') + ss].join('');
+      return [
+        (hh > 9 ? "" : "0") + hh,
+        ":",
+        (mm > 9 ? "" : "0") + mm,
+        ":",
+        (ss > 9 ? "" : "0") + ss,
+      ].join("");
     }
-  };
+  }
 
   return {
     add: add,
@@ -106,7 +112,6 @@ var replyService =(function(){
     remove: remove,
     update: update,
     get: get,
-    displayTime : displayTime
+    displayTime: displayTime,
   };
 })();
-

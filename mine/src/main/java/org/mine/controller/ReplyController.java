@@ -3,6 +3,7 @@ package org.mine.controller;
 import java.util.List;
 
 import org.mine.domain.Criteria;
+import org.mine.domain.ReplyPageDTO;
 import org.mine.domain.ReplyVO;
 import org.mine.service.ReplyService;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 @RestController
 @AllArgsConstructor
 @Log4j
-@RequestMapping("/replies/")
+@RequestMapping("/replies")
 public class ReplyController {
 	private ReplyService service;
 	
@@ -40,13 +41,13 @@ public class ReplyController {
 	@GetMapping(value = "/pages/{bno}/{page}",
 			produces = {MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<List<ReplyVO>> getList(
+	public ResponseEntity<ReplyPageDTO> getList(
 			@PathVariable("bno") long bno,
 			@PathVariable("page") int page
 			){
 		Criteria cri = new Criteria(page, 10);
 		
-		return new ResponseEntity<>(service.getListWithPaging(cri, bno), HttpStatus.OK);
+		return new ResponseEntity<>(service.getListPage(cri, bno), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{rno}", produces = {MediaType.APPLICATION_XML_VALUE
@@ -66,7 +67,7 @@ public class ReplyController {
 			value = "/{rno}",
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> modify(
+	public ResponseEntity<String> replyModify(
 			@RequestBody ReplyVO vo,
 			@PathVariable("rno") long rno){
 		vo.setRno(rno);

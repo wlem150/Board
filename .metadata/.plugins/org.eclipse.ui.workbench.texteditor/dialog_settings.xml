@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="spring-test"/>
+		<item key="selection" value="chat"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="chat"/>
+			<item value="data-rno"/>
+			<item value="data"/>
+			<item value="addReplyBtn"/>
+			<item value="modalRegisterBtn"/>
+			<item value="modalInputReply"/>
 			<item value="spring-test"/>
 			<item value="runtime"/>
 			<item value="unit"/>
@@ -17,12 +23,6 @@
 			<item value="gson"/>
 			<item value="&lt;org.springframework-version&gt;"/>
 			<item value="type"/>
-			<item value="actionform"/>
-			<item value="move"/>
-			<item value="form"/>
-			<item value="board.bno"/>
-			<item value="board List page"/>
-			<item value="modal"/>
 		</list>
 		<list key="replacehistory">
 			<item value="/resources/"/>

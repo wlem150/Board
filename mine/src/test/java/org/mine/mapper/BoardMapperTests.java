@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mine.domain.BoardVO;
 import org.mine.domain.Criteria;
+import org.mine.domain.ReplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,13 +23,5 @@ public class BoardMapperTests {
 	
 	@Test
 	public void test() {
-		Criteria cri = new Criteria();
-		cri.setAmount(10);
-		cri.setPageNum(2);
-		cri.setKeyword("Title");
-		cri.setType("TC");
-		List<BoardVO> list = mapper.getListWithPaging(cri);
-		list.forEach(board -> log.info(board));
-		
 	}
 }
