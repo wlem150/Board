@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aop-reference-model>
-<aop-project name="mine"/>
+<aop-project name="AOP"/>
+<aop-project name="mine">
+<aspect-definition advice-class-name="org.mine.aop.LogAdvice" advice-method-name="logBefore" advice-type="BEFORE" aspect-end-line-number="32" aspect-name="logAdvice" aspect-start-line-number="32" factory-id="org.springframework.ide.eclipse.aop.core.annotationAspectDefinitionElementFactory" file="/mine/src/main/webapp/WEB-INF/spring/root-context.xml" pointcut-expression="execution(* org.mine.service.AOPSampleService*.*(..))" proxy-target-class="false">
+<aop-reference advice-type="BEFORE" bean="1:BeansModel|2:mine|3:src/main/webapp/WEB-INF/spring/root-context.xml|7:beans:10|8:AOPSampleServiceImpl:10" bean-file="/mine/src/main/webapp/WEB-INF/spring/root-context.xml" bean-start-line="10" factory-id="org.springframework.ide.eclipse.aop.core.aopReferenceElementFactory" file="/mine/src/main/webapp/WEB-INF/spring/root-context.xml" source="=mine/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;org.mine.aop{LogAdvice.java[LogAdvice~logBefore" source-start-line="14" target="=mine/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;org.mine.service{AOPSampleServiceImpl.java[AOPSampleServiceImpl~doAdd~QString;~QString;" target-start-line="9"/>
+</aspect-definition>
+</aop-project>
 </aop-reference-model>

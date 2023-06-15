@@ -13,4 +13,8 @@
 		<item key="moveWizard.updateQualifiedNames" value="false"/>
 		<item key="patterns" value="*"/>
 	</section>
+	<section name="RefactoringWizard.Clean Up">
+		<item key="width" value="662"/>
+		<item key="height" value="446"/>
+	</section>
 </section>
