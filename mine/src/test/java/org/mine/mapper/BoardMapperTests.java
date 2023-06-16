@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mine.domain.BoardVO;
 import org.mine.domain.Criteria;
 import org.mine.domain.ReplyVO;
+import org.mine.service.AOPSampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,5 +24,7 @@ public class BoardMapperTests {
 	
 	@Test
 	public void test() {
+		List<BoardVO> list = mapper.getList();
+		list.forEach(board -> log.info(board));
 	}
 }

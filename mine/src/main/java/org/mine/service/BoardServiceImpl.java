@@ -8,6 +8,7 @@ import org.mine.mapper.BoardMapper;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Service
