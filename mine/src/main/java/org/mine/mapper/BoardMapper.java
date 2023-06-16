@@ -2,6 +2,7 @@ package org.mine.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.mine.domain.BoardVO;
 import org.mine.domain.Criteria;
 
@@ -15,4 +16,6 @@ public interface BoardMapper {
 	
 	public List<BoardVO> getListWithPaging(Criteria cri);
 	public int getTotalCount(Criteria cri);
+	
+	public void updateReplyCnt(@Param("bno") long bno, @Param("amount") int amount);
 }

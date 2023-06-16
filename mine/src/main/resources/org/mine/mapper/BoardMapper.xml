@@ -33,10 +33,10 @@
 	
 	<select id="getListWithPaging" resultType="org.mine.domain.BoardVO">
 		<![CDATA[
-		select bno, content, writer, regdate, updatedate, title
+		select bno, content, writer, regdate, updatedate, title, replycnt
 		from (
 			select /*+INDEX_DESC(tbl_board pk_board) */
-			rownum rn, bno, title, content, writer, regdate, updatedate
+			rownum rn, bno, title, content, writer, regdate, updatedate,replycnt
 			from tbl_board
 			where
 		]]>
@@ -53,6 +53,8 @@
 		<include refid="criteria"></include>
 		bno > 0
 	</select>
+	
+	
 	
 	
 	<select id="read" resultType="org.mine.domain.BoardVO">

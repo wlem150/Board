@@ -32,7 +32,7 @@
 					<c:forEach items="${list }" var="board">
 						<tr>
 							<td><c:out value="${board.bno }"></c:out></td>
-							<td> <a class="move" href="<c:out value='${board.bno }'/>"><c:out value="${board.title }"/></a></td>
+							<td> <a class="move" href="<c:out value='${board.bno }'/>"><c:out value="${board.title }"/> <b>[ <c:out value="${board.replyCnt }"></c:out> ]</b> </a></td>
 							<td><c:out value="${board.writer }"></c:out></td>
 							<td><fmt:formatDate value="${board.regDate }"
 									pattern="yyyy-MM-dd" /></td>
