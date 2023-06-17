@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="runtime"/>
+		<item key="selection" value="multipartFile."/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="multipartFile.."/>
+			<item value="multipartFile."/>
+			<item value="multipartFile"/>
+			<item value="temp"/>
+			<item value="checkImageType"/>
+			<item value="uploadfolderpath"/>
+			<item value="fasterxml"/>
+			<item value="upl"/>
+			<item value="checkex"/>
+			<item value="jquery"/>
+			<item value="3.1"/>
+			<item value="list"/>
+			<item value="tx"/>
 			<item value="runtime"/>
 			<item value="lombok"/>
-			<item value="junit"/>
-			<item value="aspect"/>
-			<item value="spring-test"/>
-			<item value="test"/>
-			<item value="l"/>
-			<item value="aspectj"/>
-			<item value="add test"/>
-			<item value="chat"/>
-			<item value="data-rno"/>
-			<item value="data"/>
-			<item value="addReplyBtn"/>
-			<item value="modalRegisterBtn"/>
-			<item value="modalInputReply"/>
 		</list>
 		<list key="replacehistory">
 			<item value="/resources/"/>
