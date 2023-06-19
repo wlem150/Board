@@ -1,6 +1,7 @@
 package org.mine.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -13,4 +14,7 @@ public class BoardVO {
 	private Date regDate;
 	private Date updateDate;
 	private int replyCnt;
+	
+	private List<BoardAttachVO> attachList;
+	
 }
