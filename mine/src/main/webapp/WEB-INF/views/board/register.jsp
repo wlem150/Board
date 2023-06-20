@@ -62,46 +62,8 @@
            	</div>
            </div>
            <script>
-           $(document).ready(function (e) {
-        	   var formObj = $("form[role='form']");
-
-        	   $("button[type='submit']").on("click", function (e) {
-        	     e.preventDefault();
-        	     var str = "";
-
-        	     $(".uploadResult ul li").each(function (i, obj) {
-        	       var jobj = $(obj);
-
-        	       str +=
-        	         "<input type='hidden' name='attachList[" +
-        	         i +
-        	         "].fileName' value='" +
-        	         jobj.data("filename") +
-        	         "'>";
-        	       str +=
-        	         "<input type='hidden' name='attachList[" +
-        	         i +
-        	         "].uuid' value='" +
-        	         jobj.data("uuid") +
-        	         "'>";
-        	       str +=
-        	         "<input type='hidden' name='attachList[" +
-        	         i +
-        	         "].uploadPath' value='" +
-        	         jobj.data("path") +
-        	         "'>";
-        	       str +=
-        	         "<input type='hidden' name='attachList[" +
-        	         i +
-        	         "].fileType' value='" +
-        	         jobj.data("type") +
-        	         "'>";
-        	     });
-        	     formObj.append(str).submit();
-        	   });
-        	 });
-
-        	 $("input[type='file']").on("change", function (e) {
+          
+           $("input[type='file']").on("change", function (e) {
         	   var formData = new FormData();
         	   var inputFile = $("input[name='uploadFile']");
         	   var files = inputFile[0].files;
@@ -140,7 +102,7 @@
         	     $(uploadResultArr).each(function (i, obj) {
         	       if (obj.image) {
         	         var fileCallPath = encodeURIComponent(
-        	           obj.uploadPath + "/" + obj.uuid + "s_" + obj.uuid + "_" + obj.fileName
+        	           obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName
         	         );
         	         str += "<li data-path='" + obj.uploadPath + "'";
         	         str +=
@@ -188,18 +150,55 @@
         	         str += "</li>";
         	       }
         	     });
+
+        	     // attachList를 폼 데이터에 추가
+        	     var str = "";
+        	     $(uploadResultArr).each(function (i, attach) {
+        	       str +=
+        	         "<input type='hidden' name='attachList[" +
+        	         i +
+        	         "].fileName' value='" +
+        	         attach.fileName +
+        	         "'>";
+        	       str +=
+        	         "<input type='hidden' name='attachList[" +
+        	         i +
+        	         "].uuid' value='" +
+        	         attach.uuid +
+        	         "'>";
+        	       str +=
+        	         "<input type='hidden' name='attachList[" +
+        	         i +
+        	         "].uploadPath' value='" +
+        	         attach.uploadPath +
+        	         "'>";
+        	       str +=
+        	         "<input type='hidden' name='attachList[" +
+        	         i +
+        	         "].fileType' value='" +
+        	         attach.image +
+        	         "'>";
+        	     });
+        	     formObj.append(str);
+
+        	     // 폼 데이터를 서버로 제출
+        	     formObj.submit();
         	   }
 
+        	   var formObj = $("form[role='form']");
         	   $.ajax({
         	     url: "/uploadAjaxAction",
+        	     type: "POST",
+        	     data: formData,
+        	     dataType: "json",
         	     processData: false,
         	     contentType: false,
-        	     data: formData,
-        	     type: "POST",
-        	     dataType: "json",
         	     success: function (result) {
         	       console.log(result);
         	       showUploadResult(result);
+        	     },
+        	     error: function (xhr, status, error) {
+        	       console.error(xhr.responseText);
         	     },
         	   });
         	 });

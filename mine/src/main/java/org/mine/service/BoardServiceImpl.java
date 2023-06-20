@@ -24,15 +24,16 @@ public class BoardServiceImpl implements BoardService {
 	@Setter(onMethod_ = @Autowired)
 	private AttachMapper attachMapper;
 	
-	@Transactional
 	@Override
 	public void register(BoardVO board) {
+		log.info("11111111111111111");
 		mapper.insertSelectKey(board);
 		
+		log.info("11111111111111111");
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			return;
 		}
-		
+		log.info("22222222222222222");
 		board.getAttachList().forEach(attach -> {
 			attach.setBno(board.getBno());
 			attachMapper.insert(attach);

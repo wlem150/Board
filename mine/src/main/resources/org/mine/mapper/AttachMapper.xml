@@ -3,17 +3,17 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.mine.mapper.BoardMapper">
-	<insert id="insert">
+<mapper namespace="org.mine.mapper.AttachMapper">
+	<insert id="insert" parameterType="org.mine.domain.BoardAttachVO">
 		insert into tbl_attach (uuid, uploadpath, filename, filetype, bno)
 		values (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{bno})
 	</insert>
 	
-	<delete id="delete">
+	<delete id="delete" parameterType="String">
 		delete from tbl_attach where uuid = #{uuid}
 	</delete>
 	
-	<select id="findByBno" resultType="org.mine.domain.BoardAttachVO">
+	<select id="findByBno" parameterType="long" resultType="org.mine.domain.BoardAttachVO">
 		select * from tbl_attach where bno = #{bno}
 	</select>
 </mapper>

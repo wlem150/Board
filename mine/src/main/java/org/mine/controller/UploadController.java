@@ -99,6 +99,7 @@ public class UploadController {
 	}
 	
 	@PostMapping("/uploadFormAction")
+	@ResponseBody
 	public void uploadFormAction(MultipartFile[] uploadFile, Model model) {
 		String uploadFolder = "C:\\upload";
 		log.info("mapping");
