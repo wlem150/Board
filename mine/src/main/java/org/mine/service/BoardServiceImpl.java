@@ -24,21 +24,28 @@ public class BoardServiceImpl implements BoardService {
 	@Setter(onMethod_ = @Autowired)
 	private AttachMapper attachMapper;
 	
+	
+	// 오류 발생 근본 원인 : BoardMapper.xml 에 있는 insertSelectKey 
+	
+	// mapper 를 통해서 전달받는 bno 의 값이 1씩 증가하는 것이 아니라, 2씩 증가하였기 때문에, 오류가 발생
+	// register 를 통해서 새로운 게시글이 만들어질 때 seq_board.nextval from dual 구문이 있어서 2번이 실행됨.
+	// 그러나 board.getBno() 를 통해서 받은 bno 의 값은 1만 올라간 상황.
+	// 그렇기 때문에, attach.insert() 를 해도, 찾을려고 하는 bno 값이 없기 때문에, FK 오류가 발생한 것 
+	@Transactional
 	@Override
 	public void register(BoardVO board) {
-		log.info("11111111111111111");
 		mapper.insertSelectKey(board);
-		
-		log.info("11111111111111111");
+		log.info(board.getBno() + "==========++++=++++++++++++============");
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			return;
 		}
-		log.info("22222222222222222");
-		board.getAttachList().forEach(attach -> {
-			attach.setBno(board.getBno());
-			attachMapper.insert(attach);
-		});
-		
+		if (board.getBno() != null) {
+			board.getAttachList().forEach(attach -> {
+				log.info(board.getBno() + "==============");
+				attach.setBno(board.getBno());
+				attachMapper.insert(attach);
+			});
+		}
 	}
 
     @Override
