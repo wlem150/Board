@@ -2,6 +2,7 @@ package org.mine.service;
 
 import java.util.List;
 
+import org.mine.domain.BoardAttachVO;
 import org.mine.domain.BoardVO;
 import org.mine.domain.Criteria;
 
@@ -13,4 +14,6 @@ public interface BoardService {
 	public List<BoardVO> getList();
 	public List<BoardVO> getListWithPaging(Criteria cri);
 	public int getTotalCount(Criteria cri);
+	
+	public List<BoardAttachVO> getAttachList(long bno);
 }

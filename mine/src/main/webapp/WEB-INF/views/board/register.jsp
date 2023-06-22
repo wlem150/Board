@@ -104,6 +104,7 @@ $(document).ready(function (e) {
     		  str += "<img src='/display?fileName=" + fileCallPath + "'>";
     		  str += "</div>";
     		  str += "</li>";
+    		  console.log(fileCallPath);
     		}else {
 	        var fileCallPath = encodeURIComponent(
 	          obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName

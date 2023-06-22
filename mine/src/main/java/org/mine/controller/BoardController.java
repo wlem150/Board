@@ -1,9 +1,15 @@
 package org.mine.controller;
 
+import java.util.List;
+
+import org.mine.domain.BoardAttachVO;
 import org.mine.domain.BoardVO;
 import org.mine.domain.Criteria;
 import org.mine.domain.PageDTO;
 import org.mine.service.BoardService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
@@ -84,5 +91,12 @@ public class BoardController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(long bno){
+		log.info("getAttachList" + bno);
+		return new ResponseEntity<>(service.getAttachList(bno),HttpStatus.OK);
 	}
 }

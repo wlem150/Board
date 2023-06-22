@@ -66,14 +66,14 @@
 		values(seq_board.nextval, #{title}, #{content}, #{writer})
 	</insert>
 	
-	<insert id="insertSelectKey">
-<!-- 		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
-			select seq_board.nextval from dual
-		</selectKey> -->
-		insert into tbl_board (bno, title, content, writer)
-		values (seq_board.nextval, #{title}, #{content}, #{writer})
-	</insert>
-	
+<insert id="insertSelectKey">
+  <selectKey keyProperty="bno" order="BEFORE" resultType="long">
+    select seq_board.nextval from dual
+  </selectKey>
+  insert into tbl_board (bno, title, content, writer)
+  values (seq_board.nextval, #{title}, #{content}, #{writer})
+</insert>
+
 	<delete id="delete">
 		delete from tbl_board where bno = #{bno}
 	</delete>

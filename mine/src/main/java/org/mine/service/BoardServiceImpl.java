@@ -2,6 +2,7 @@ package org.mine.service;
 
 import java.util.List;
 
+import org.mine.domain.BoardAttachVO;
 import org.mine.domain.BoardVO;
 import org.mine.domain.Criteria;
 import org.mine.mapper.AttachMapper;
@@ -35,14 +36,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void register(BoardVO board) {
 		mapper.insertSelectKey(board);
-		log.info(board.getBno() + "==========++++=++++++++++++============");
 		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			return;
 		}
 		if (board.getBno() != null) {
 			board.getAttachList().forEach(attach -> {
-				log.info(board.getBno() + "==============");
-				attach.setBno(board.getBno());
+				log.info("»Æ¿Œ");
+				attach.setBno(board.getBno()+1);
 				attachMapper.insert(attach);
 			});
 		}
@@ -80,6 +80,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int getTotalCount(Criteria cri) {
 		return mapper.getTotalCount(cri);
+	}
+
+	@Override
+	public List<BoardAttachVO> getAttachList(long bno) {
+		log.info("get Attach list by bno" + bno);
+		return attachMapper.fileByBno(bno);
 	}
 
 }

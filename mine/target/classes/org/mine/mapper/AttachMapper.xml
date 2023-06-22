@@ -13,7 +13,7 @@
 		delete from tbl_attach where uuid = #{uuid}
 	</delete>
 	
-	<select id="findByBno" parameterType="long" resultType="org.mine.domain.BoardAttachVO">
+	<select id="fileByBno" parameterType="long" resultType="org.mine.domain.BoardAttachVO">
 		select * from tbl_attach where bno = #{bno}
 	</select>
 </mapper>
