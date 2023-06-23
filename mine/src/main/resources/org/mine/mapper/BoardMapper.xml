@@ -54,9 +54,6 @@
 		bno > 0
 	</select>
 	
-	
-	
-	
 	<select id="read" resultType="org.mine.domain.BoardVO">
 		select * from tbl_board where bno = #{bno}
 	</select>
