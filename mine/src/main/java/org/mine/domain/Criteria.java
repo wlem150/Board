@@ -1,5 +1,7 @@
 package org.mine.domain;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Data;
 
 @Data
@@ -23,4 +25,13 @@ public class Criteria {
 		return type == null? new String[] {}: type.split("");
 	}
 
+	public String getListLink() {
+		UriComponentsBuilder builders = UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum", this.pageNum)
+				.queryParam("amount", this.amount)
+				.queryParam("type", this.type)
+				.queryParam("keyword", this.keyword);
+		return builders.toUriString();
+		
+	}
 }

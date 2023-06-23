@@ -16,4 +16,8 @@
 	<select id="fileByBno" parameterType="long" resultType="org.mine.domain.BoardAttachVO">
 		select * from tbl_attach where bno = #{bno}
 	</select>
+	
+	<delete id="deleteAll">
+		delete from tbl_attach where bno = #{bno}
+	</delete>
 </mapper>

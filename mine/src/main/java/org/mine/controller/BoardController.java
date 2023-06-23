@@ -1,5 +1,8 @@
 package org.mine.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.mine.domain.BoardAttachVO;
@@ -29,47 +32,77 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class BoardController {
 	private BoardService service;
+
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		if (attachList == null || attachList.size() == 0) {
+			return;
+		}
+
+		log.info("delete attach files=============================");
+		log.info(attachList);
+
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get(
+						"C:\\upload\\" + attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
+
+				Files.deleteIfExists(file);
+
+				if (Files.probeContentType(file).startsWith("image")) {
+					Path thumbnail = Paths.get("C:\\upload\\" + attach.getUploadPath() + "\\s_" + attach.getUuid() + "_"
+							+ attach.getFileName());
+
+					Files.delete(thumbnail);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		);
+	}
+	
 	
 	@GetMapping("/list")
 	public void list(Model model, Criteria cri) {
 		log.info("getListWithPaging");
 //		model.addAttribute("list", service.getListWithPaging(cri));
-//		model.addAttribute("pageMaker", new PageDTO(cri, 123));
-		
+//		model.addAttribute("pageMaker", new PageDTO(cri, 123));d
+
 		int total = service.getTotalCount(cri);
 		model.addAttribute("list", service.getListWithPaging(cri));
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
-	
+
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
-		log.info("register : ===="+ board);
+		log.info("register : ====" + board);
 		log.info(board.getAttachList());
-		if (board.getAttachList() != null){
+		if (board.getAttachList() != null) {
 			log.info("tes============================================");
 			board.getAttachList().forEach(attach -> log.info(attach));
 		}
-		
+
 		rttr.addFlashAttribute("result", board.getBno());
 		service.register(board);
 		return "redirect:/board/list";
 	}
-	
+
 	@GetMapping("/register")
 	public void register() {
-		
+
 	}
-	
-	@GetMapping({"/get","/modify"})
-	public void get(@RequestParam("bno") long bno,@ModelAttribute("cri") Criteria cri ,Model model) {
+
+	@GetMapping({ "/get", "/modify" })
+	public void get(@RequestParam("bno") long bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("/get or modify");
 		model.addAttribute("board", service.get(bno));
 	}
-	
+
 	@PostMapping("/modify")
 	public String modify(BoardVO board, RedirectAttributes rttr, @ModelAttribute("cri") Criteria cri) {
 		log.info("/ modify");
-		if(service.modify(board)) {
+		if (service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
@@ -82,21 +115,22 @@ public class BoardController {
 
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") long bno, RedirectAttributes rttr, Criteria cri) {
-		log.info("remove" + bno);
+		log.info("remove =========== " + bno);
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
 		if(service.remove(bno)) {
+			deleteFiles(attachList);
+			
 			rttr.addFlashAttribute("result", "success");
 		}
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		rttr.addAttribute("type", cri.getType());
-		rttr.addAttribute("keyword", cri.getKeyword());
-		return "redirect:/board/list";
+		return "redirect:/board/list" + cri.getListLink();
 	}
-	
+
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<BoardAttachVO>> getAttachList(long bno){
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(long bno) {
 		log.info("getAttachList" + bno);
-		return new ResponseEntity<>(service.getAttachList(bno),HttpStatus.OK);
+		return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
 	}
+
+
 }
