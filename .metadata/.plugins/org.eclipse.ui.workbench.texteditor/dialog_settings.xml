@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="remove ==========="/>
+		<item key="selection" value="delete"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="delete"/>
+			<item value="deleteFile"/>
+			<item value="largeFileName"/>
+			<item value="maxSize"/>
+			<item value="targetFile"/>
+			<item value="$(&quot;.uploadResult&quot;).on(&quot;click&quot;, &quot;button&quot;, function (e)"/>
+			<item value="comfirm"/>
+			<item value="arr"/>
+			<item value="role"/>
+			<item value="form"/>
+			<item value="formObj"/>
+			<item value="uploadResult ul li"/>
 			<item value="formData"/>
 			<item value="remove ==========="/>
-			<item value="delete"/>
 			<item value="UploadController"/>
-			<item value="display"/>
-			<item value="확인"/>
-			<item value="uploadResult"/>
-			<item value="==========++++=++++++++++++============"/>
-			<item value="BoardServiceImpl"/>
-			<item value="=============="/>
-			<item value="524338"/>
-			<item value="serviceImpl"/>
-			<item value="result"/>
-			<item value="register : ==="/>
-			<item value="uploadBtn"/>
 		</list>
 		<list key="replacehistory">
 			<item value="/resources/"/>
