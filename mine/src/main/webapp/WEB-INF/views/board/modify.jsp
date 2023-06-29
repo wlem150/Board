@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@ page session="false"%>
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ include file="../includes/header.jsp"%>
@@ -69,9 +71,10 @@
 			<div class="panel-heading">Board Read Page</div>
 			<div class="panel-body">
 				<form action="/board/modify" role="form" method="post">
-					<input type='hidden' name='pageNum'
-						value='<c:out value = "${cri.pageNum }"/>'> <input
-						type='hidden' name='amount'
+					<input type="hidden" name="${_csrf.parameterName }"
+						value="${_csrf.token }"> <input type='hidden'
+						name='pageNum' value='<c:out value = "${cri.pageNum }"/>'>
+					<input type='hidden' name='amount'
 						value='<c:out value = "${cri.amount }"/>'> <input
 						type='hidden' name='type' value='<c:out value = "${cri.type }"/>'>
 					<input type='hidden' name='keyword'
@@ -105,9 +108,13 @@
 				 --%>
 
 
-
-					<button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
-					<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+					<sec:authentication property="principal" var="pinfo" />
+					<sec:authorize access="isAuthenticated()">
+						<c:if test="${pinfo.username eq board.writer }">
+							<button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
+							<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+						</c:if>
+					</sec:authorize>
 					<button type="submit" data-oper='list' class="btn btn-info">List</button>
 				</form>
 			</div>
@@ -206,187 +213,200 @@ $(document).ready(function () {
 	$(document).ready(function () {
 	  (function () {
 	    var bno = '<c:out value="${board.bno}"/>';
-	    $.getJSON("/board/getAttachList", { bno: bno }, function (arr) {
-	      console.log(arr);
+	    $.getJSON(
+	      "/board/getAttachList",
+	      {
+	        bno: bno,
+	      },
+	      function (arr) {
+	        console.log(arr);
+
+	        var str = "";
+
+	        $(arr).each(function (i, attach) {
+	          if (attach.fileType) {
+	            var fileCallPath = encodeURIComponent(
+	              attach.uploadPath + "/s_" + attach.uuid + "_" + attach.fileName
+	            );
+	            str +=
+	              "<li data-path='" +
+	              attach.uploadPath +
+	              "' data-uuid='" +
+	              attach.uuid +
+	              "' data-filename='" +
+	              attach.fileName +
+	              "' data-type='" +
+	              attach.fileType +
+	              "'><div>";
+	            str += "<span>" + attach.fileName + "</span><br>";
+	            str +=
+	              "<button type='button' data-file='" +
+	              fileCallPath +
+	              "' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+	            str += "<img src='/display?fileName=" + fileCallPath + "'>";
+	            str += "</div></li>";
+	          } else {
+	            str +=
+	              "<li data-path='" +
+	              attach.uploadPath +
+	              "' data-uuid='" +
+	              attach.uuid +
+	              "' data-filename='" +
+	              attach.fileName +
+	              "' data-type='" +
+	              attach.fileType +
+	              "'><div>";
+	            str += "<span>" + attach.fileName + "</span><br>";
+	            str +=
+	              "<button type='button' data-file='" +
+	              fileCallPath +
+	              "' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+	            str += "<span>" + attach.fileName + "</span><br/>";
+	            str += "<img src='/resources/img/clip.png'>";
+	            str += "</div></li>";
+	          }
+	        });
+	        $(".uploadResult ul").html(str);
+	      }
+	    );
+	  })();
+	});
+
+	$(document).ready(function () {
+	  var regex = new RegExp("(.*?).(exe|sh|zip|alz)$");
+	  var maxSize = 5242880;
+
+	  function checkExtension(fileName, fileSize) {
+	    if (fileSize >= maxSize) {
+	      alert("파일 사이즈 초과");
+	      return false;
+	    }
+
+	    if (regex.test(fileName)) {
+	      alert("해당 종류의 파일은 업로드할 수 없습니다.");
+	      return false;
+	    }
+	    return true;
+	  }
+
+	  $(".uploadResult").on("click", "button", function (e) {
+	    console.log("delete file");
+	    if (confirm("Remove this file?")) {
+	      var targetLi = $(this).closest("li");
+	      var targetFile = $(this).data("file");
+	      var type = $(this).data("type");
+
+	      $.ajax({
+	        url: "/deleteFile",
+	        data: {
+	          fileName: targetFile,
+	          type: type,
+	        },
+	        dataType: "text",
+	        type: "POST",
+	        success: function (result) {
+	          alert(result);
+	          targetLi.remove();
+	        },
+	      });
+	    }
+	  });
+
+	    var csrfHeaderName = "${_csrf.headerName}";
+	    var csrfTokenValue = "${_csrf.token}";
+	    
+	  $("input[type='file']").change(function (e) {
+	    var formData = new FormData();
+	    var inputFile = $("input[name='uploadFile']");
+	    var files = inputFile[0].files;
+	    for (var i = 0; i < files.length; i++) {
+	      if (!checkExtension(files[i].name, files[i].size)) {
+	        return false;
+	      }
+	      formData.append("uploadFile", files[i]);
+	    }
+
+	    function showUploadedResult(uploadResultArr) {
+	      if (!uploadResultArr || uploadResultArr.length == 0) {
+	        return;
+	      }
+
+	      var uploadUL = $(".uploadResult ul");
 
 	      var str = "";
 
-	      $(arr).each(function (i, attach) {
-	        if (attach.fileType) {
+	      $(uploadResultArr).each(function (i, obj) {
+	        if (obj.image) {
 	          var fileCallPath = encodeURIComponent(
-	            attach.uploadPath + "/s_" + attach.uuid + "_" + attach.fileName
+	            obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName
 	          );
 	          str +=
 	            "<li data-path='" +
-	            attach.uploadPath +
+	            obj.uploadPath +
 	            "' data-uuid='" +
-	            attach.uuid +
+	            obj.uuid +
 	            "' data-filename='" +
-	            attach.fileName +
+	            obj.fileName +
 	            "' data-type='" +
-	            attach.fileType +
-	            "'><div>";
-	          str += "<span>" + attach.fileName + "</span><br>";
+	            obj.image +
+	            "'>";
+	          str += "<div>";
+	          str += "<span>" + obj.fileName + "</span>";
 	          str +=
 	            "<button type='button' data-file='" +
 	            fileCallPath +
 	            "' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 	          str += "<img src='/display?fileName=" + fileCallPath + "'>";
-	          str += "</div></li>";
+	          str += "</div>";
+	          str += "</li>";
+	          console.log(fileCallPath);
 	        } else {
+	          var fileCallPath = encodeURIComponent(
+	            obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName
+	          );
+	          var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
 	          str +=
 	            "<li data-path='" +
-	            attach.uploadPath +
+	            obj.uploadPath +
 	            "' data-uuid='" +
-	            attach.uuid +
+	            obj.uuid +
 	            "' data-filename='" +
-	            attach.fileName +
+	            obj.fileName +
 	            "' data-type='" +
-	            attach.fileType +
-	            "'><div>";
-	          str += "<span>" + attach.fileName + "</span><br>";
+	            obj.image +
+	            "'>";
+	          str += "<div>";
+	          str += "<span>" + obj.fileName + "</span>";
 	          str +=
 	            "<button type='button' data-file='" +
 	            fileCallPath +
 	            "' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-	          str += "<span>" + attach.fileName + "</span><br/>";
 	          str += "<img src='/resources/img/clip.png'>";
-	          str += "</div></li>";
+	          str += "</div>";
+	          str += "</li>";
 	        }
 	      });
-	      $(".uploadResult ul").html(str);
+	      uploadUL.append(str);
+	    }
+
+	    $.ajax({
+	      url: "/uploadAjaxAction",
+	      processData: false,
+	        contentType: false,
+	        beforeSend: function (xhr) {
+	            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	        },
+	      data: formData,
+	      type: "POST",
+	      dataType: "json",
+	      success: function (result) {
+	        console.log(result);
+	        showUploadedResult(result);
+	        $("input[name='uploadFile']").val("");
+	      },
 	    });
-	  })();
+	  });
 	});
-
-
-$(document).ready(function () {
-  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-  var maxSize = 5242880;
-
-      function checkExtension(fileName, fileSize) {
-        if (fileSize >= maxSize) {
-          alert("파일 사이즈 초과");
-          return false;
-        }
-
-        if (regex.test(fileName)) {
-          alert("해당 종류의 파일은 업로드할 수 없습니다.");
-          return false;
-        }
-        return true;
-      }
-
-  $(".uploadResult").on("click", "button", function (e) {
-    console.log("delete file");
-    if (confirm("Remove this file?")){
-      var targetLi = $(this).closest("li");
-      var targetFile = $(this).data("file");
-      var type = $(this).data("type");
-	    
-
-      $.ajax({
-        url: "/deleteFile",
-        data: { fileName: targetFile, type: type },
-        dataType: "text",
-        type: "POST",
-        success: function (result) {
-          alert(result);
-          targetLi.remove();
-        },
-      });
-    }
-  });
-
-  $("input[type='file']").change(function (e) {
-    var formData = new FormData();
-    var inputFile = $("input[name='uploadFile']");
-    var files = inputFile[0].files;
-    for (var i = 0; i < files.length; i++) {
-      if (!checkExtension(files[i].name, files[i].size)) {
-        return false;
-      }
-      formData.append("uploadFile", files[i]);
-    }
-
-    function showUploadedResult(uploadResultArr) {
-      if (!uploadResultArr || uploadResultArr.length == 0) {
-        return;
-      }
-
-      var uploadUL = $(".uploadResult ul");
-
-      var str = "";
-
-      $(uploadResultArr).each(function (i, obj) {
-        if (obj.image) {
-          var fileCallPath = encodeURIComponent(
-            obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName
-          );
-          str +=
-            "<li data-path='" +
-            obj.uploadPath +
-            "' data-uuid='" +
-            obj.uuid +
-            "' data-filename='" +
-            obj.fileName +
-            "' data-type='" +
-            obj.image +
-            "'>";
-          str += "<div>";
-          str += "<span>" + obj.fileName + "</span>";
-          str +=
-            "<button type='button' data-file='" +
-            fileCallPath +
-            "' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-          str += "<img src='/display?fileName=" + fileCallPath + "'>";
-          str += "</div>";
-          str += "</li>";
-          console.log(fileCallPath);
-        } else {
-          var fileCallPath = encodeURIComponent(
-            obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName
-          );
-          var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
-          str +=
-            "<li data-path='" +
-            obj.uploadPath +
-            "' data-uuid='" +
-            obj.uuid +
-            "' data-filename='" +
-            obj.fileName +
-            "' data-type='" +
-            obj.image +
-            "'>";
-          str += "<div>";
-          str += "<span>" + obj.fileName + "</span>";
-          str +=
-            "<button type='button' data-file='" +
-            fileCallPath +
-            "' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-          str += "<img src='/resources/img/clip.png'>";
-          str += "</div>";
-          str += "</li>";
-        }
-      });
-      uploadUL.append(str);
-    }
-
-    $.ajax({
-      url: "/uploadAjaxAction",
-      processData: false,
-      contentType: false,
-      data: formData,
-      type: "POST",
-      dataType: "json",
-      success: function (result) {
-        console.log(result);
-        showUploadedResult(result);
-        $("input[name='uploadFile']").val("");
-      },
-    });
-  });
-});
 
 </script>
 

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"  prefix="sec"%>
 <%@ page session="false"%>
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ include file="../includes/header.jsp"%>
@@ -21,6 +22,7 @@
 			<!-- /.panel-heading -->
 			<div class="panel-body">
 				<form action="/board/register" role="form" method="post">
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					<div class="form-group">
 						<label>Title</label> <input class="form-control" name="title">
 					</div>
@@ -29,7 +31,7 @@
 						<textarea rows="3" class="form-control" name="content"></textarea>
 					</div>
 					<div class="form-group">
-						<label>Writer</label> <input class="form-control" name="writer">
+						<label>Writer</label> <input class="form-control" name="writer" value='<sec:authentication property="principal.username"/>' readonly/>
 					</div>
 					<button type="submit" class="btn btn-default">Submit
 						Button</button>
@@ -93,19 +95,19 @@ $(document).ready(function (e) {
 	    var str = "";
 
 	    $(uploadResultArr).each(function (i, obj) {
-    	if (obj.image) {
-    		  var fileCallPath = encodeURIComponent(
-    		    obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName
-    		  );
-    		  str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-    		  str += "<div>";
-    		  str += "<span>" + obj.fileName + "</span>";
-    		  str += "<button type='button' data-file='" + fileCallPath + "' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-    		  str += "<img src='/display?fileName=" + fileCallPath + "'>";
-    		  str += "</div>";
-    		  str += "</li>";
-    		  console.log(fileCallPath);
-    		}else {
+  	if (obj.image) {
+  		  var fileCallPath = encodeURIComponent(
+  		    obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName
+  		  );
+  		  str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+  		  str += "<div>";
+  		  str += "<span>" + obj.fileName + "</span>";
+  		  str += "<button type='button' data-file='" + fileCallPath + "' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+  		  str += "<img src='/display?fileName=" + fileCallPath + "'>";
+  		  str += "</div>";
+  		  str += "</li>";
+  		  console.log(fileCallPath);
+  		}else {
 	        var fileCallPath = encodeURIComponent(
 	          obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName
 	        );
@@ -143,17 +145,20 @@ $(document).ready(function (e) {
 	    var type = $(this).data("type");
 
 	    var targetLi = $(this).closest("li");
-
+        
 	    $.ajax({
-	      url: "/deleteFile",
-	      data: { fileName: targetFile, type: type },
-	      dataType: "text",
-	      type: "POST",
-	      success: function (result) {
-	        alert(result);
-	        targetLi.remove();
-	      },
-	    });
+      url: "/deleteFile",
+      data: { fileName: targetFile, type: type },
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+      },
+      dataType: "text",
+      type: "POST",
+      success: function (result) {
+        alert(result);
+        targetLi.remove();
+      },
+    });
 	  });
 
 	  function checkExtension(fileName, fileSize) {
@@ -169,6 +174,9 @@ $(document).ready(function (e) {
 	    return true;
 	  }
 
+  var csrfHeaderName = "${_csrf.headerName}";
+  var csrfTokenValue = "${_csrf.token}";
+  
 	  $("input[type='file']").change(function (e) {
 	    var formData = new FormData();
 	    var inputFile = $("input[name='uploadFile']");
@@ -183,7 +191,10 @@ $(document).ready(function (e) {
 	    $.ajax({
 	      url: "/uploadAjaxAction",
 	      processData: false,
-	      contentType: false,
+          contentType: false,
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+          },
 	      data: formData,
 	      type: "POST",
 	      dataType: "json",

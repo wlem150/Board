@@ -8,13 +8,13 @@
 
 	<bean id="customAccessDenied"
 		class="org.mine.security.CustomAccessDeniedHandler"></bean>
-	<bean id="customLoginSuccess"
-		class="org.mine.security.CustomLoginSuccessHandler"></bean>
+	<!-- <bean id="customLoginSuccess" class="org.mine.security.CustomLoginSuccessHandler"></bean> -->
 	<bean id="bcryptPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 	<!-- <bean id="customPasswordEncoder" class="org.mine.security.CustomNoOpPasswordEncoder"> 
 		</bean> -->
-	<bean id="customUserDetailsService" class="org.mine.security.CustomUserDetailsService"></bean>
+	<bean id="customUserDetailsService"
+		class="org.mine.security.CustomUserDetailsService"></bean>
 
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/security/all"
@@ -30,29 +30,29 @@
 			ref="customAccessDenied" />
 		<!-- <security:form-login /> -->
 
-		<security:form-login login-page="/customLogin"
-			authentication-success-handler-ref="customLoginSuccess" />
-		<!-- <security:logout logout-url="/customLogout"
-			invalidate-session="true" />
-		 -->	
-		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
-		<security:logout logout-url="/cutomLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/>
+		<security:form-login login-page="/customLogin"/>
+		<!-- <security:logout logout-url="/customLogout" invalidate-session="true" 
+			/> -->
+		<security:remember-me
+			data-source-ref="dataSource" token-validity-seconds="604800" />
+		<security:logout logout-url="/cutomLogout"
+			invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
 	</security:http>
 
 	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="customUserDetailsService">
-			<!-- <security:jdbc-user-service
-				data-source-ref="dataSource"
-				users-by-username-query="select userid, userpw, enabled from tbl_member where userid = ?"
-				authorities-by-username-query="select userid, auth from tbl_member_auth where userid = ?" /> -->
+		<security:authentication-provider
+			user-service-ref="customUserDetailsService">
+			<!-- <security:jdbc-user-service data-source-ref="dataSource" users-by-username-query="select 
+				userid, userpw, enabled from tbl_member where userid = ?" authorities-by-username-query="select 
+				userid, auth from tbl_member_auth where userid = ?" /> -->
 			<security:password-encoder
 				ref="bcryptPasswordEncoder" />
 			<!-- <security:password-encoder ref="customPasswordEncoder"/> -->
 			<!-- <security:user-service> <security:user name="member" password="{noop}member" 
 				authorities="ROLE_MEMBER" /> <security:user name="admin" password="{noop}admin" 
 				authorities="ROLE_ADMIN" /> </security:user-service> -->
-				
-			
+
+
 		</security:authentication-provider>
 
 	</security:authentication-manager>

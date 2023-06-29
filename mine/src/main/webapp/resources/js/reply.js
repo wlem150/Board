@@ -24,23 +24,24 @@ var replyService = (function () {
   function getList(param, callback, error) {
     var bno = param.bno;
     var page = param.page || 1;
-    $.getJSON("/replies/pages/" + bno + "/" + page + ".json",
-      function (data) {
-        if (callback) {
-          // callback(data);
-          callback(data.replyCnt, data.list);
-        }
-      }).fail(function (xhr, status, err) {
-        if (error) {
-          error();
-        }
-      });
+    $.getJSON("/replies/pages/" + bno + "/" + page + ".json", function (data) {
+      if (callback) {
+        // callback(data);
+        callback(data.replyCnt, data.list);
+      }
+    }).fail(function (xhr, status, err) {
+      if (error) {
+        error();
+      }
+    });
   }
 
   function remove(rno, callback, error) {
     $.ajax({
       type: "delete",
-      url: "/replies/" + rno,
+        url: "/replies/" + rno,
+        data: JSON.stringify({ rno: rno }),
+        contentType: "application/json; charset=utf-8",
       success: function (deleteResult, status, xhr) {
         if (callback) {
           callback(deleteResult);
